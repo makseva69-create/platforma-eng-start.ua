@@ -1,25 +1,40 @@
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); /* Темно-синій градієнт */
     color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Вирівнювання до верху, щоб дати більше простору для картки */
     min-height: 100vh;
     margin: 0;
-    padding: 20px;
+    padding: 20px 10px; /* Зменшуємо горизонтальні відступи для мобільного */
     box-sizing: border-box;
 }
 
-/* --- КАРТКА (Flashcard) --- */
+/* --- Заголовок --- */
+h1 {
+    font-size: 1.8em; /* Зменшуємо розмір для мобільних */
+    margin-bottom: 20px;
+    text-align: center;
+    color: #f7f7f7; /* Світлий колір для контрасту з темним фоном */
+}
 
+h1 .fa-book {
+    margin-right: 10px;
+    color: #ffcc00; /* Жовтий акцент */
+}
+
+/* --- КОНТЕЙНЕР КАРТКИ (Flashcard Container) --- */
 .flashcard-container {
     perspective: 1000px;
-    width: 90%;
-    max-width: 400px;
-    height: 300px;
-    margin-bottom: 30px;
+    width: 95%; /* Ширше для мобільних */
+    max-width: 450px; /* Максимальна ширина для ПК/планшетів */
+    height: 300px; /* Фіксована висота */
+    margin: 30px auto; /* Центрування картки та відступ */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Виразніша тінь */
+    border-radius: 15px;
+    transform-style: preserve-3d; /* Важливо для 3D-перевороту */
 }
 
 #flashcard {
@@ -29,7 +44,6 @@ body {
     transform-style: preserve-3d;
     transition: transform 0.6s ease;
     border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
     cursor: pointer;
 }
 
@@ -53,113 +67,161 @@ body {
 
 /* Лицьова сторона */
 .card-front {
-    background-color: #f7f7f7;
+    background-color: #f7f7f7; /* Світлий фон */
     color: #333;
     z-index: 2;
 }
 
 #verb-infinitive {
-    font-size: 2.8em;
+    font-size: 2.5em; /* Розмір інфінітива */
     font-weight: bold;
-    color: #1e3c72;
+    color: #1e3c72; /* Темно-синій текст */
     text-align: center;
 }
 
 /* Зворотна сторона */
 .card-back {
-    background-color: #333;
+    background-color: #333; /* Темно-сірий фон для кращого контрасту */
     color: #fff;
     transform: rotateY(180deg);
     text-align: center;
 }
 
 #verb-forms {
-    font-size: 1.4em;
+    font-size: 1.3em;
     margin-bottom: 10px;
-    color: #ffcc00; /* Яскравий акцент для форм */
+    color: #ffcc00; /* Жовтий акцент для форм */
 }
 
 #verb-translation {
-    font-size: 1.6em;
+    font-size: 1.5em;
     font-weight: 500;
-    color: #fff;
+    color: #ccc; /* Світло-сірий для перекладу */
 }
 
-/* --- НАВІГАЦІЯ ТА ЛІЧИЛЬНИК --- */
-
+/* --- КНОПКИ НАВІГАЦІЇ --- */
 .controls {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 90%;
-    max-width: 400px;
-    margin-top: 10px;
+    justify-content: center; /* Центруємо кнопки */
+    width: 95%;
+    max-width: 450px;
+    gap: 15px; /* Проміжок між кнопками */
+    margin-top: 30px;
+    margin-bottom: 20px; /* Відступ від лічильника */
 }
 
+.nav-btn {
+    background-color: #ffcc00; /* Жовтий фон */
+    color: #1e3c72; /* Темно-синій текст */
+    border: none;
+    padding: 12px 18px; /* Більші кнопки */
+    font-size: 1.2em; /* Розмір іконки */
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    flex-grow: 1; /* Кнопки займають весь доступний простір */
+    max-width: 120px; /* Максимальна ширина для кнопок на великих екранах */
+    display: flex; /* Для центрування іконки */
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-btn:hover {
+    background-color: #e6b800; /* Темніший жовтий при наведенні */
+}
+
+.nav-btn:active {
+    transform: scale(0.96); /* Анімація натискання */
+}
+
+.nav-btn i {
+    font-size: 1.4em; /* Розмір іконки */
+}
+
+/* --- ЛІЧИЛЬНИК СЛІВ --- */
 #card-counter {
-    font-size: 1em;
+    font-size: 1.1em;
     font-weight: 600;
     color: #a0a0a0;
+    margin-top: 15px; /* Додатковий відступ */
+    text-align: center;
 }
 
-.nav-buttons {
-    display: flex;
-    gap: 15px;
-}
-
-button {
-    background-color: #ffcc00;
-    color: #1e3c72;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1em;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
-}
-
-button:hover {
-    background-color: #e6b800;
-}
-
-button:active {
-    transform: scale(0.98);
-}
-
-/* Кнопка озвучення */
-#toggle-sound-btn {
-    position: fixed;
+/* --- КНОПКА ЗВУКУ --- */
+.sound-btn {
+    position: absolute; /* Фіксоване позиціонування */
     top: 20px;
     right: 20px;
-    padding: 10px 15px;
-    background-color: #00bcd4;
+    padding: 12px 15px;
+    background-color: #00bcd4; /* Синій фон */
     color: white;
-    font-size: 0.9em;
-    border-radius: 5px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-#toggle-sound-btn:hover {
-    background-color: #0097a7;
+.sound-btn:hover {
+    background-color: #0097a7; /* Темніший синій при наведенні */
 }
 
-/* --- ФІКС ДЛЯ МОБІЛЬНОГО ПІДСВІЧУВАННЯ (РІШЕННЯ ВАШОЇ ПРОБЛЕМИ) --- */
+.sound-btn:active {
+    transform: scale(0.96);
+}
 
-/* Видалення стандартного синього контуру (outline) при фокусі/активності */
+.sound-btn i {
+    margin-right: 0; /* Прибираємо відступ, бо тепер тільки іконка */
+}
+
+/* --- ГЛОБАЛЬНІ ФІКСИ (ДЛЯ ВИДАЛЕННЯ ПІДСВІЧУВАННЯ) --- */
 button, 
 #flashcard, 
-#prev-btn, 
-#next-btn,
-#flip-btn,
-#toggle-sound-btn,
+.nav-btn,
+.sound-btn,
 a,
 :focus, 
 :active {
     outline: none !important; 
     box-shadow: none !important;
+    border: none !important; /* На всякий випадок, якщо рамка десь з'являється */
 }
 
-/* WebKit-специфічне правило (Chrome, Safari на мобільних), яке прибирає тапове підсвічування */
+/* WebKit-специфічне правило для видалення тапового підсвічування на мобільних */
 * {
     -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none; /* Відключає меню, що з'являється при довгому натисканні */
+    -webkit-user-select: none; /* Відключає можливість виділення тексту */
+}
+
+/* --- Медіа-запити для десктопу (якщо потрібно щось змінити для великих екранів) --- */
+@media (min-width: 768px) {
+    h1 {
+        font-size: 2.2em;
+        margin-top: 20px;
+    }
+    .flashcard-container {
+        height: 350px; /* Збільшуємо висоту картки на десктопі */
+        margin-top: 50px;
+    }
+    #verb-infinitive {
+        font-size: 3em;
+    }
+    #verb-forms {
+        font-size: 1.5em;
+    }
+    #verb-translation {
+        font-size: 1.7em;
+    }
+    .controls {
+        margin-top: 40px;
+    }
+    .nav-btn {
+        padding: 15px 25px;
+        font-size: 1.3em;
+    }
+    .sound-btn {
+        font-size: 1.2em;
+    }
 }
