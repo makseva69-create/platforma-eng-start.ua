@@ -1,5 +1,5 @@
 /* ================================================= */
-/* 1. БАЗОВІ СТИЛІ (Mobile-First Defaults)           */
+/* 1. БАЗОВІ СТИЛІ (MOBILE-FIRST DEFAULTS)           */
 /* ================================================= */
 body {
     font-family: 'Arial', sans-serif;
@@ -12,7 +12,7 @@ body {
     align-items: center; 
     min-height: 100vh; 
     margin: 0;
-    padding: 15px 10px; /* Загальний вертикальний відступ */
+    padding: 15px 10px; 
     box-sizing: border-box;
 }
 
@@ -34,15 +34,18 @@ header h1 {
 }
 
 /* ================================================= */
-/* 2. СТИЛІ КАРТКИ (Базові, для мобільних) */
+/* 2. СТИЛІ КАРТКИ (АГРЕСИВНО МАЛІ ДЛЯ МОБІЛЬНИХ)    */
 /* ================================================= */
 .flashcard {
     width: 95%; 
-    height: 120px; /* Дуже компактна висота для мобільних */
+    height: 120px; /* Дуже компактна висота */
     perspective: 1000px; 
-    margin-bottom: 20px; 
+    
+    /* Відступ під карткою (вирішує проблему тісного прилягання до кнопок) */
+    margin-bottom: 30px; 
+    
     cursor: pointer;
-    max-width: 280px; /* Обмежуємо ширину картки на мобільних */
+    max-width: 280px; /* Обмежуємо ширину картки */
 }
 
 .flashcard-inner {
@@ -53,7 +56,7 @@ header h1 {
     transition: transform 0.6s;
     transform-style: preserve-3d;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); 
-    border-radius: 15px; 
+    border-radius: 15px; /* Округлі кути картки */
 }
 
 .flashcard.flipped .flashcard-inner {
@@ -69,14 +72,14 @@ header h1 {
     flex-direction: column;
     justify-content: center; 
     align-items: center; 
-    padding: 10px;
+    padding: 10px; /* Зменшений внутрішній відступ */
     border-radius: 15px;
 }
 
 .flashcard-front {
     background-color: #ffffff;
     color: #007bff;
-    font-size: 1.5em; /* Базовий шрифт V1 (мобільний) */
+    font-size: 1.5em; /* Компактний шрифт V1 */
     font-weight: bold;
 }
 
@@ -84,7 +87,7 @@ header h1 {
     background-color: #007bff;
     color: #ffffff;
     transform: rotateY(180deg);
-    font-size: 0.8em; /* Базовий шрифт зворотньої сторони (мобільний) */
+    font-size: 0.8em; /* Компактний шрифт V2/V3/Переклад */
 }
 
 .flashcard-back p#verb-forms {
@@ -100,20 +103,19 @@ header h1 {
 
 
 /* ================================================= */
-/* 3. СТИЛІ КЕРУВАННЯ (Buttons) - Mobile Layout      */
+/* 3. СТИЛІ КЕРУВАННЯ КНОПКАМИ (Mobile Layout)       */
 /* ================================================= */
 .controls {
     /* На мобільних: кнопки йдуть у стовпчик (вертикально) */
     display: flex; 
     flex-direction: column; 
     width: 100%; 
-    max-width: 250px; /* !!! Обмежуємо ширину блоку кнопок на мобільних !!! */
-    margin-bottom: 20px; 
-    gap: 8px; 
+    max-width: 250px; /* Обмежена ширина блоку кнопок */
+    margin-bottom: 20px; /* Відступ під кнопками */
+    gap: 8px; /* Відступ між вертикальними кнопками */
 }
 
 .controls button {
-    /* Базові стилі для всіх кнопок */
     width: 100%; 
     padding: 8px 10px;
     border: none;
@@ -148,7 +150,7 @@ header h1 {
 }
 
 /* ================================================= */
-/* 4. МЕДІА-ЗАПИТИ (Desktop/Tablet Layout)           */
+/* 4. МЕДІА-ЗАПИТИ (DESKTOP/TABLET LAYOUT)           */
 /* ================================================= */
 
 @media (min-width: 551px) {
@@ -162,26 +164,27 @@ header h1 {
     .flashcard {
         height: 300px; 
         max-width: 600px;
+        margin-bottom: 40px; /* Збільшений відступ для ПК */
     }
 
     .flashcard-front {
-        font-size: 3em; /* Збільшуємо шрифт V1 */
+        font-size: 3em; 
     }
 
     .flashcard-back, .flashcard-back p#verb-forms {
-        font-size: 1.5em; /* Збільшуємо шрифт V2/V3/Перекладу */
+        font-size: 1.5em; 
     }
     
     /* ЗМІНЮЄМО МАКЕТ КНОПОК НА ГОРИЗОНТАЛЬНИЙ */
     .controls {
-        flex-direction: row; /* Розміщуємо кнопки в рядок */
+        flex-direction: row; 
         justify-content: center; 
         max-width: 600px;
-        gap: 20px; /* Відступи між горизонтальними кнопками */
+        gap: 20px; 
     }
     
     .controls button {
-        width: auto; /* Ширина залежить від вмісту */
+        width: auto; 
         padding: 12px 25px;
         font-size: 1em;
     }
