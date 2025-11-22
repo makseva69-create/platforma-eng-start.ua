@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вивчення неправильних дієслів</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>📖 Неправильні дієслова (Irregular Verbs)</h1>
+    </header>
+
+    <main class="container">
+        <div id="flashcard" class="flashcard">
+            <div class="flashcard-inner">
+                <div class="flashcard-front">
+                    <p id="verb-infinitive"></p>
+                </div>
+                <div class="flashcard-back">
+                    <p id="verb-forms"></p>
+                    <p id="verb-translation"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="prev-btn">⬅️ Попереднє</button>
+            <button id="flip-btn">🔁 Перевернути</button>
+            <button id="next-btn">Наступне ➡️</button>
+            <button id="toggle-sound-btn">🔊 Звук Вкл</button>
+        </div>
+        
+        <div class="status">
+            <span id="card-counter"></span>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

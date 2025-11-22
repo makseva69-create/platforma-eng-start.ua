@@ -1,0 +1,191 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    
+    /* Нове: Центрування вмісту сторінки по вертикалі та горизонталі */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрує вміст контейнера по горизонталі */
+    justify-content: center; /* Центрує вміст контейнера по вертикалі (якщо min-height: 100vh) */
+    
+    min-height: 100vh; /* Займає всю висоту екрана */
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    
+    /* Нове: Встановлюємо контейнеру більший пріоритет для вертикального центрування */
+    /* Встановлюємо відступи для невеликих екранів */
+    padding: 0 15px; 
+}
+
+/* Стилі картки */
+.flashcard {
+    width: 100%;
+    height: 300px; 
+    perspective: 1000px; 
+    
+    /* Нове: Збільшений відступ ЗНИЗУ картки, щоб відсунути кнопки */
+    margin-bottom: 50px; 
+    
+    cursor: pointer;
+}
+
+.flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Трохи сильніша тінь */
+    border-radius: 12px;
+}
+
+.flashcard.flipped .flashcard-inner {
+    transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; 
+    
+    /* Забезпечуємо повне вертикальне та горизонтальне центрування вмісту картки */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Центрування по вертикалі */
+    align-items: center; /* Центрування по горизонталі */
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.flashcard-front {
+    background-color: #ffffff;
+    color: #007bff;
+    font-size: 3em;
+    font-weight: bold;
+}
+
+.flashcard-back {
+    background-color: #007bff;
+    color: #ffffff;
+    transform: rotateY(180deg);
+    font-size: 1.5em; 
+    line-height: 1.4; 
+}
+
+/* Стилі для тексту на зворотній стороні */
+.flashcard-back p#verb-forms {
+    font-size: 1.5em; /* Виправлений розмір */
+    margin-bottom: 20px; /* Достатній відступ, щоб відділити від перекладу */
+    font-weight: bold;
+    white-space: pre-wrap;
+}
+.flashcard-back p#verb-translation {
+    font-size: 1em; /* Менший розмір для перекладу */
+    opacity: 0.8;
+    margin-top: 5px; 
+}
+
+
+/* Стилі для елементів керування */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 450px;
+    margin-bottom: 15px; /* Невеликий відступ від лічильника */
+    gap: 15px;
+}
+
+.controls button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+    background-color: #28a745;
+    color: white;
+}
+
+#flip-btn {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.controls button:hover {
+    opacity: 0.9;
+}
+
+.status {
+    font-size: 1.2em;
+    color: #6c757d;
+}
+
+/* ================================================= */
+/* !!! СЕКЦІЯ АДАПТИВНОГО ДИЗАЙНУ (MEDIA QUERIES) !!! */
+/* ================================================= */
+
+/* Стилі для невеликих пристроїв (смартфони, ширина до 550px) */
+@media (max-width: 550px) {
+    
+    /* Зменшуємо розмір заголовка */
+    header h1 {
+        font-size: 1.5em;
+        padding: 0 10px; /* Додаємо невеликий відступ, щоб текст не прилипав до країв */
+    }
+
+    /* Зменшуємо розмір картки */
+    .flashcard {
+        height: 250px; 
+        margin-bottom: 30px; /* Зменшуємо відступ від кнопок */
+    }
+
+    /* Зменшуємо розмір тексту на лицьовій стороні */
+    .flashcard-front p#verb-infinitive {
+        font-size: 2.2em;
+    }
+
+    /* Зменшуємо розмір тексту на зворотній стороні */
+    .flashcard-back {
+        font-size: 1.3em; 
+    }
+    
+    .flashcard-back p#verb-forms {
+        font-size: 1.3em;
+    }
+
+    /* Змінюємо розташування кнопок: змушуємо їх розміщуватися у стовпчик, якщо вони не вміщаються */
+    .controls {
+        flex-direction: column; /* Кнопки розташовані вертикально */
+        width: 80%; /* Займають більше місця по ширині */
+        max-width: 300px;
+    }
+
+    .controls button {
+        margin: 5px 0; /* Додаємо вертикальний відступ між кнопками */
+        width: 100%; /* Займають всю ширину контейнера */
+        padding: 12px 10px;
+        font-size: 0.9em;
+    }
+    
+    .status {
+        font-size: 1em;
+    }
+}
