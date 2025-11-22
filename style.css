@@ -1,214 +1,165 @@
-/* ================================================= */
-/* 1. БАЗОВІ СТИЛІ (MOBILE-FIRST DEFAULTS)           */
-/* ================================================= */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f7f6;
-    color: #333;
-    
-    /* Основна сітка: Центрування вмісту сторінки */
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    min-height: 100vh; 
-    margin: 0;
-    padding: 15px 10px; 
-    box-sizing: border-box;
-}
-
-header {
-    margin-bottom: 25px;
-    text-align: center;
-}
-header h1 {
-    font-size: 1.2em; /* Базовий розмір для мобільних пристроїв */
-    padding: 0 5px; 
-}
-
-.container {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    max-width: 650px; 
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-/* ================================================= */
-/* 2. СТИЛІ КАРТКИ (АГРЕСИВНО МАЛІ ДЛЯ МОБІЛЬНИХ)    */
-/* ================================================= */
-.flashcard {
-    width: 95%; 
-    height: 120px; /* Дуже компактна висота */
-    perspective: 1000px; 
-    
-    /* Відступ під карткою (вирішує проблему тісного прилягання до кнопок) */
-    margin-bottom: 30px; 
-    
-    cursor: pointer;
-    max-width: 280px; /* Обмежуємо ширину картки */
+/* --- КАРТКА (Flashcard) --- */
+
+.flashcard-container {
+    perspective: 1000px;
+    width: 90%;
+    max-width: 400px;
+    height: 300px;
+    margin-bottom: 30px;
 }
 
-.flashcard-inner {
-    position: relative;
+#flashcard {
     width: 100%;
     height: 100%;
-    text-align: center;
-    transition: transform 0.6s;
+    position: relative;
     transform-style: preserve-3d;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); 
-    border-radius: 15px; /* Округлі кути картки */
+    transition: transform 0.6s ease;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
 }
 
-.flashcard.flipped .flashcard-inner {
+#flashcard.flipped {
     transform: rotateY(180deg);
 }
 
-.flashcard-front, .flashcard-back {
+.card-face {
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden; 
+    backface-visibility: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: center; 
-    align-items: center; 
-    padding: 10px; /* Зменшений внутрішній відступ */
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
     border-radius: 15px;
 }
 
-.flashcard-front {
-    background-color: #ffffff;
-    color: #007bff;
-    font-size: 1.5em; /* Компактний шрифт V1 */
-    font-weight: bold;
-}
-
-.flashcard-back {
-    background-color: #007bff;
-    color: #ffffff;
-    transform: rotateY(180deg);
-    font-size: 0.8em; /* Компактний шрифт V2/V3/Переклад */
-}
-
-.flashcard-back p#verb-forms {
-    font-size: 0.8em; 
-    margin-bottom: 8px; 
-    font-weight: bold;
-    white-space: pre-wrap;
-}
-.flashcard-back p#verb-translation {
-    font-size: 0.75em; 
-    opacity: 0.9;
-}
-
-
-/* ================================================= */
-/* 3. СТИЛІ КЕРУВАННЯ КНОПКАМИ (Mobile Layout)       */
-/* ================================================= */
-.controls {
-    /* На мобільних: кнопки йдуть у стовпчик (вертикально) */
-    display: flex; 
-    flex-direction: column; 
-    width: 100%; 
-    max-width: 250px; /* Обмежена ширина блоку кнопок */
-    margin-bottom: 20px; /* Відступ під кнопками */
-    gap: 8px; /* Відступ між вертикальними кнопками */
-}
-
-.controls button {
-    width: 100%; 
-    padding: 8px 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 0.8em;
-    transition: background-color 0.3s, transform 0.1s;
-    border-radius: 25px; /* Сильно округлі кути */
-    
-    /* Кольори */
-    background-color: #28a745;
-    color: white;
-}
-
-#flip-btn {
-    background-color: #ffc107;
+/* Лицьова сторона */
+.card-front {
+    background-color: #f7f7f7;
     color: #333;
-}
-#toggle-sound-btn {
-    background-color: #6c757d; 
-    color: white;
+    z-index: 2;
 }
 
-.controls button:hover {
-    opacity: 0.9;
-    transform: translateY(-1px); 
+#verb-infinitive {
+    font-size: 2.8em;
+    font-weight: bold;
+    color: #1e3c72;
+    text-align: center;
 }
 
-.status {
-    font-size: 0.8em;
-    color: #6c757d;
+/* Зворотна сторона */
+.card-back {
+    background-color: #333;
+    color: #fff;
+    transform: rotateY(180deg);
+    text-align: center;
+}
+
+#verb-forms {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+    color: #ffcc00; /* Яскравий акцент для форм */
+}
+
+#verb-translation {
+    font-size: 1.6em;
+    font-weight: 500;
+    color: #fff;
+}
+
+/* --- НАВІГАЦІЯ ТА ЛІЧИЛЬНИК --- */
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    max-width: 400px;
     margin-top: 10px;
 }
 
-/* ================================================= */
-/* 4. МЕДІА-ЗАПИТИ (DESKTOP/TABLET LAYOUT)           */
-/* ================================================= */
-
-@media (min-width: 551px) {
-    /* Для екранів ширше 550px (планшети та ПК) */
-
-    header h1 {
-        font-size: 2em; /* Збільшуємо заголовок */
-    }
-    
-    /* ЗБІЛЬШУЄМО РОЗМІР КАРТКИ */
-    .flashcard {
-        height: 300px; 
-        max-width: 600px;
-        margin-bottom: 40px; /* Збільшений відступ для ПК */
-    }
-
-    .flashcard-front {
-        font-size: 3em; 
-    }
-
-    .flashcard-back, .flashcard-back p#verb-forms {
-        font-size: 1.5em; 
-    }
-    
-    /* ЗМІНЮЄМО МАКЕТ КНОПОК НА ГОРИЗОНТАЛЬНИЙ */
-    .controls {
-        flex-direction: row; 
-        justify-content: center; 
-        max-width: 600px;
-        gap: 20px; 
-    }
-    
-    .controls button {
-        width: auto; 
-        padding: 12px 25px;
-        font-size: 1em;
-    }
+#card-counter {
+    font-size: 1em;
+    font-weight: 600;
+    color: #a0a0a0;
 }
 
-/* Це прибирає стандартний контур фокусу для всіх інтерактивних елементів у вашому додатку. */
-/* Селектори включають кнопки, а також саму картку, яка може бути у фокусі після кліку. */
+.nav-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+button {
+    background-color: #ffcc00;
+    color: #1e3c72;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+button:hover {
+    background-color: #e6b800;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+/* Кнопка озвучення */
+#toggle-sound-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    background-color: #00bcd4;
+    color: white;
+    font-size: 0.9em;
+    border-radius: 5px;
+}
+
+#toggle-sound-btn:hover {
+    background-color: #0097a7;
+}
+
+/* --- ФІКС ДЛЯ МОБІЛЬНОГО ПІДСВІЧУВАННЯ (РІШЕННЯ ВАШОЇ ПРОБЛЕМИ) --- */
+
+/* Видалення стандартного синього контуру (outline) при фокусі/активності */
 button, 
 #flashcard, 
 #prev-btn, 
 #next-btn,
 #flip-btn,
 #toggle-sound-btn,
-:focus {
-    /* Основне правило, яке прибирає контур */
-    outline: none !important; 
-    
-    /* Додатково прибираємо можливий ефект виділення на Android/Chrome */
-    -webkit-tap-highlight-color: transparent; 
-}
-
-/* Якщо ви хочете бути максимально впевненими, можете додати це правило 
-   для елементів, які можуть залишатися активними (натиснутими)*/
+a,
+:focus, 
 :active {
-    outline: none !important;
+    outline: none !important; 
+    box-shadow: none !important;
 }
 
+/* WebKit-специфічне правило (Chrome, Safari на мобільних), яке прибирає тапове підсвічування */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
