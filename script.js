@@ -1,5 +1,5 @@
 // 1. Повний список неправильних дієслів з українським перекладом (127 слів)
-const irregularVerbs = [
+const verbs = [
     { infinitive: "abide", v2: "abode", v3: "abode", translation: "терпіти, витримувати" },
     { infinitive: "arise", v2: "arose", v3: "arisen", translation: "виникати" },
     { infinitive: "awake", v2: "awoke", v3: "awoken", translation: "прокидатися" },
@@ -301,3 +301,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Обробник для кнопки увімкнення/вимкнення звуку
     soundBtn.addEventListener('click', toggleSound); 
 });
+
