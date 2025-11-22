@@ -3,39 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вивчення неправильних дієслів</title>
+    <title>Неправильні дієслова</title>
+    
     <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-    <header>
-        <h1>📖 Неправильні дієслова (Irregular Verbs)</h1>
-    </header>
+    <h1><i class="fas fa-book"></i> Неправильні дієслова</h1>
 
-    <main class="container">
-        <div id="flashcard" class="flashcard">
-            <div class="flashcard-inner">
-                <div class="flashcard-front">
-                    <p id="verb-infinitive"></p>
-                </div>
-                <div class="flashcard-back">
-                    <p id="verb-forms"></p>
-                    <p id="verb-translation"></p>
-                </div>
+    <div class="flashcard-container">
+        <div id="flashcard">
+            <div class="card-face card-front">
+                <span id="verb-infinitive">ЗАВАНТАЖЕННЯ...</span>
+            </div>
+            
+            <div class="card-face card-back">
+                <p id="verb-forms">V2: --- | V3: ---</p>
+                <p id="verb-translation">(Переклад)</p>
             </div>
         </div>
+    </div>
+    
+    <button id="toggle-sound-btn" class="sound-btn">
+        <i class="fas fa-volume-up"></i>
+    </button>
 
-        <div class="controls">
-            <button id="prev-btn">⬅️ Попереднє</button>
-            <button id="flip-btn">🔁 Перевернути</button>
-            <button id="next-btn">Наступне ➡️</button>
-            <button id="toggle-sound-btn">🔊 Звук Вкл</button>
-        </div>
-        
-        <div class="status">
-            <span id="card-counter"></span>
-        </div>
-    </main>
+    <div class="controls">
+        <button id="prev-btn" class="nav-btn"><i class="fas fa-arrow-left"></i></button>
+        <button id="flip-btn" class="nav-btn"><i class="fas fa-undo-alt"></i></button>
+        <button id="next-btn" class="nav-btn"><i class="fas fa-arrow-right"></i></button>
+    </div>
+
+    <div id="card-counter">Слово 1 з 93</div>
 
     <script src="script.js"></script>
 </body>
