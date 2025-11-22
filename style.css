@@ -147,45 +147,50 @@ header {
     
     /* Зменшуємо розмір заголовка */
     header h1 {
-        font-size: 1.5em;
-        padding: 0 10px; /* Додаємо невеликий відступ, щоб текст не прилипав до країв */
+        font-size: 1.4em;
+        padding: 0 10px; 
     }
 
-    /* Зменшуємо розмір картки */
+    /* ЗНАЧНО ЗМЕНШУЄМО РОЗМІР КАРТКИ */
     .flashcard {
-        height: 250px; 
-        margin-bottom: 30px; /* Зменшуємо відступ від кнопок */
+        height: 180px; /* Зменшили з 250px до 180px */
+        width: 90%;  /* Займає 90% ширини екрана */
+        max-width: 350px;
+        margin-bottom: 30px; 
     }
 
-    /* Зменшуємо розмір тексту на лицьовій стороні */
+    /* ЗМЕНШУЄМО РОЗМІР ТЕКСТУ НА ЛИЦЬОВІЙ СТОРОНІ (V1) */
     .flashcard-front p#verb-infinitive {
-        font-size: 2.2em;
+        font-size: 2em; /* Зменшили з 2.2em до 2em */
     }
 
-    /* Зменшуємо розмір тексту на зворотній стороні */
+    /* ЗМЕНШУЄМО РОЗМІР ТЕКСТУ НА ЗВОРОТНІЙ СТОРОНІ (V2/V3/Переклад) */
     .flashcard-back {
-        font-size: 1.3em; 
+        font-size: 1.1em; /* Зменшили з 1.3em до 1.1em */
+        line-height: 1.2;
     }
     
     .flashcard-back p#verb-forms {
-        font-size: 1.3em;
+        font-size: 1.1em; /* Зменшили з 1.3em до 1.1em */
+        margin-bottom: 15px; 
     }
 
-    /* Змінюємо розташування кнопок: змушуємо їх розміщуватися у стовпчик, якщо вони не вміщаються */
+    /* КНОПКИ: Вертикальний стовпчик для зручності натискання */
     .controls {
-        flex-direction: column; /* Кнопки розташовані вертикально */
-        width: 80%; /* Займають більше місця по ширині */
+        flex-direction: column; 
+        width: 85%; /* Займають більше місця по ширині */
         max-width: 300px;
+        gap: 10px; /* Додали невеликий відступ між кнопками */
     }
 
     .controls button {
-        margin: 5px 0; /* Додаємо вертикальний відступ між кнопками */
-        width: 100%; /* Займають всю ширину контейнера */
-        padding: 12px 10px;
+        width: 100%; 
+        padding: 10px;
         font-size: 0.9em;
     }
     
     .status {
-        font-size: 1em;
+        font-size: 0.9em;
+        margin-top: 15px;
     }
 }
