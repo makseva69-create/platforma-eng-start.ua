@@ -145,53 +145,50 @@ header {
     
     /* Зменшуємо розмір заголовка */
     header h1 {
-        font-size: 1.4em;
-        padding: 0 10px;
+        font-size: 1.2em; /* Дуже маленький заголовок */
+        padding: 0 5px; 
     }
 
-    /* ЗМЕНШУЄМО РОЗМІР КАРТКИ */
+    /* АГРЕСИВНЕ ЗМЕНШЕННЯ РОЗМІРУ КАРТКИ */
     .flashcard {
-        height: 180px; /* Фінальна висота */
-        width: 90%;  
-        max-width: 350px;
-        margin-bottom: 30px; 
+        height: 150px; /* Сильно зменшена висота */
+        width: 95%;  /* Займає майже всю ширину */
+        max-width: 320px; /* Обмежуємо ширину */
+        margin-bottom: 25px; 
     }
-
-    /* ЗМЕНШУЄМО РОЗМІР ТЕКСТУ НА ЛИЦЬОВІЙ СТОРОНІ (V1) */
+    
+    /* ЗМЕНШУЄМО ТЕКСТ НА ЛИЦЬОВІЙ СТОРОНІ (V1) */
     .flashcard-front p#verb-infinitive {
-        font-size: 2em; /* Фінальний розмір */
+        font-size: 1.8em; 
     }
 
-    /* ЗМЕНШУЄМО РОЗМІР ТЕКСТУ НА ЗВОРОТНІЙ СТОРОНІ (V2/V3/Переклад) */
+    /* ЗМЕНШУЄМО ТЕКСТ НА ЗВОРОТНІЙ СТОРОНІ (V2/V3/Переклад) */
     .flashcard-back {
-        font-size: 1.1em; /* Фінальний розмір */
+        font-size: 1.0em; /* Мінімум для читання */
         line-height: 1.2;
     }
     
     .flashcard-back p#verb-forms {
-        font-size: 1.1em; /* Фінальний розмір */
-        margin-bottom: 15px; 
+        font-size: 1.0em; 
+        margin-bottom: 10px; 
     }
 
-    /* КНОПКИ: Вертикальний стовпчик для зручності натискання */
+    /* КНОПКИ: Вертикальний стовпчик */
     .controls {
         flex-direction: column; 
-        width: 85%; /* Фінальна ширина */
-        max-width: 300px;
-        gap: 10px; /* Фінальний відступ між кнопками */
+        width: 90%; 
+        max-width: 280px; /* Зменшуємо максимальну ширину контейнера кнопок */
+        gap: 8px; /* Невеликий відступ між кнопками */
     }
 
     .controls button {
         width: 100%; 
-        padding: 10px; /* Фінальний відступ */
-        font-size: 0.9em;
+        padding: 8px 10px; /* Зменшений padding */
+        font-size: 0.8em; /* Зменшений шрифт кнопок */
     }
     
     .status {
-        font-size: 0.9em; /* Фінальний розмір */
-        margin-top: 15px;
+        font-size: 0.8em;
+        margin-top: 10px;
     }
 }
-    }
-}
-
