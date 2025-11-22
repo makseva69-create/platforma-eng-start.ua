@@ -1,5 +1,6 @@
 // =================================================
 // 1. ДАНІ ТА ГЛОБАЛЬНІ ЗМІННІ
+// (ВАШ ПОВНИЙ СПИСОК СЛІВ З КОРЕКТНИМИ КЛЮЧАМИ: v1, v2, v3, ua)
 // =================================================
 
 const verbs = [
@@ -154,7 +155,7 @@ const verbs = [
 const STORAGE_KEY = 'flashcardWordIndex'; 
 
 let isFlipped = false;
-let isSoundEnabled = true; // За замовчуванням увімкнено
+let isSoundEnabled = true; 
 
 
 // =================================================
@@ -192,7 +193,6 @@ function loadProgress() {
         if (savedIndex !== null) {
             const index = parseInt(savedIndex, 10);
             
-            // Критична перевірка: якщо масив порожній або індекс поза межами, починаємо з 0
             if (verbs.length > 0 && index >= 0 && index < verbs.length) { 
                 return index;
             }
@@ -206,11 +206,12 @@ function loadProgress() {
 
 // =================================================
 // 4. ФУНКЦІЇ ЛОГІКИ ТА НАВІГАЦІЇ
+// (ДОДАНО ЗАХИСТ ВІД ВІДСУТНІХ КЛЮЧІВ)
 // =================================================
 
 function showWord() {
-    // Якщо масив порожній, не відображаємо нічого
-    if (verbs.length === 0) {
+    // Якщо масив порожній або індекс недійсний
+    if (verbs.length === 0 || currentWordIndex < 0 || currentWordIndex >= verbs.length) {
         verbInfinitive.textContent = "Немає слів у списку.";
         verbForms.textContent = "";
         verbTranslation.textContent = "";
@@ -218,23 +219,28 @@ function showWord() {
         return;
     }
 
-    // Оновлення контенту картки
     const currentVerb = verbs[currentWordIndex];
-    verbInfinitive.textContent = currentVerb.v1;
-    verbForms.textContent = `V2: ${currentVerb.v2} | V3: ${currentVerb.v3}`;
-    verbTranslation.textContent = `(${currentVerb.ua})`;
+
+    // --- ЛИЦЬОВА СТОРОНА (ПРОБЛЕМНА ДІЛЯНКА) ---
+    // Використовуємо оператор ||, щоб відображати порожній рядок, якщо v1 відсутній
+    // Це забезпечить, що програма не зламається, навіть якщо якесь слово не має v1.
+    verbInfinitive.textContent = currentVerb.v1 || "---"; 
+
+    // --- ЗВОРОТНА СТОРОНА ---
+    verbForms.textContent = `V2: ${currentVerb.v2 || '---'} | V3: ${currentVerb.v3 || '---'}`;
+    verbTranslation.textContent = `(${currentVerb.ua || '---'})`;
 
     // Оновлення лічильника
     cardCounter.textContent = `Слово ${currentWordIndex + 1} з ${verbs.length}`;
 
-    // Якщо картка перевернута, повертаємо її на лицьову сторону
+    // Скидання перевороту
     if (isFlipped) {
         flashcard.classList.remove('flipped');
         isFlipped = false;
     }
     
     // Озвучення слова
-    if (isSoundEnabled) {
+    if (isSoundEnabled && currentVerb.v1) {
         speak(currentVerb.v1);
     }
 }
@@ -268,6 +274,7 @@ function toggleSound() {
 }
 
 function speak(text) {
+    if (!text) return; // Не озвучуємо порожній текст
     if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         
@@ -275,7 +282,6 @@ function speak(text) {
         utterance.lang = 'en-US';
         utterance.rate = 0.9; 
 
-        // Отримання голосів має відбуватися після завантаження
         if (window.speechSynthesis.getVoices().length === 0) {
             window.speechSynthesis.onvoiceschanged = () => {
                 setVoiceAndSpeak(utterance);
@@ -303,21 +309,18 @@ function setVoiceAndSpeak(utterance) {
 // 5. ІНІЦІАЛІЗАЦІЯ ТА ОБРОБНИКИ ПОДІЙ
 // =================================================
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Відображаємо слово (завантажене з localStorage)
+    // Відображаємо слово (завантажене з localStorage)
     showWord();
     
-    // 2. Встановлюємо початковий стан кнопки звуку
+    // Встановлюємо початковий стан кнопки звуку
     soundBtn.textContent = isSoundEnabled ? '🔊 Звук Вкл' : '🔇 Звук Викл';
 
-    // 3. Обробники подій
+    // Обробники подій
     prevBtn.addEventListener('click', showPreviousWord);
     nextBtn.addEventListener('click', showNextWord);
     flipBtn.addEventListener('click', flipCard);
     
-    // Обробник для кліку на саму картку
     flashcard.addEventListener('click', flipCard); 
     
-    // Обробник для кнопки увімкнення/вимкнення звуку
     soundBtn.addEventListener('click', toggleSound); 
 });
-
