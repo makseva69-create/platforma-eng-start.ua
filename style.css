@@ -1,23 +1,32 @@
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); /* Темно-синій градієнт */
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); 
     color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; 
     min-height: 100vh;
     margin: 0;
     padding: 20px 10px;
     box-sizing: border-box;
 }
 
-/* --- Заголовок --- */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1; 
+    width: 100%;
+    max-width: 500px;
+    padding-bottom: 50px; 
+}
+
 h1 {
     font-size: 1.8em;
     margin-bottom: 20px;
     text-align: center;
     color: #f7f7f7;
+    padding-top: 20px;
 }
 
 h1 .fa-book {
@@ -27,22 +36,20 @@ h1 .fa-book {
 
 /* --- КОНТЕЙНЕР КАРТКИ (Flashcard Container) --- */
 .flashcard-container {
-    perspective: 1000px;
+    perspective: 1000px; 
     width: 95%;
     max-width: 450px;
-    /* КРИТИЧНО: Фіксована висота для уникнення стрибків при перевороті */
     height: 300px; 
     margin: 30px auto;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     border-radius: 15px;
-    transform-style: preserve-3d;
 }
 
 #flashcard {
+    position: relative; 
     width: 100%;
     height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
+    transform-style: preserve-3d; 
     transition: transform 0.6s ease;
     border-radius: 15px;
     cursor: pointer;
@@ -54,17 +61,20 @@ h1 .fa-book {
 
 .card-face {
     position: absolute;
+    top: 0; 
+    left: 0; 
     width: 100%;
     height: 100%;
-    backface-visibility: hidden;
+    backface-visibility: hidden; 
+    
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; 
+    justify-content: center; /* ЦЕНТРУВАННЯ! */
+    
     padding: 20px;
     box-sizing: border-box;
     border-radius: 15px;
-    position: relative; 
 }
 
 /* Лицьова сторона */
@@ -102,18 +112,16 @@ h1 .fa-book {
     color: #ccc;
 }
 
-/* --- КНОПКА ОЗВУЧЕННЯ НА КАРТЦІ (SPEAK-BTN) --- */
-#speak-verb-btn { /* Використовуємо ID для більшої точності */
+/* --- КНОПКА ОЗВУЧЕННЯ НА КАРТЦІ --- */
+#speak-verb-btn {
     position: absolute;
     bottom: 20px;
     right: 20px;
-    /* Збільшуємо розміри кнопки для більшого хітбоксу */
-    width: 60px; 
-    height: 60px;
-    padding: 10px;
+    width: 50px; 
+    height: 50px;
     background-color: #00bcd4;
     color: white;
-    font-size: 1.4em;
+    font-size: 1.2em;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -127,37 +135,37 @@ h1 .fa-book {
     background-color: #0097a7;
 }
 
-/* Анімація та стиль при натисканні (усуває синє виділення) */
 #speak-verb-btn:active {
-    transform: scale(0.9); /* Трохи зменшуємо кнопку при натисканні */
+    transform: scale(0.9);
     background-color: #007985;
 }
 
-/* --- КНОПКИ НАВІГАЦІЇ --- */
+
+/* --- КНОПКИ НАВІГАЦІЇ (ICON BUTTONS) --- */
 .controls {
     display: flex;
     justify-content: center;
-    width: 95%;
+    width: 100%; 
     max-width: 450px;
-    gap: 15px;
+    gap: 10px; 
     margin-top: 30px;
-    margin-bottom: 20px;
+    padding: 0 10px; 
 }
 
 .nav-btn {
-    background-color: #ffcc00;
+    background-color: #ffcc00; 
     color: #1e3c72;
     border: none;
-    padding: 12px 18px;
-    font-size: 1.2em;
-    border-radius: 10px;
+    width: 70px;
+    height: 70px;
+    font-size: 1.4em;
+    border-radius: 12px;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
-    flex-grow: 1;
-    max-width: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .nav-btn:hover {
@@ -168,10 +176,6 @@ h1 .fa-book {
     transform: scale(0.96);
 }
 
-.nav-btn i {
-    font-size: 1.4em;
-}
-
 /* --- ЛІЧИЛЬНИК СЛІВ --- */
 #card-counter {
     font-size: 1.1em;
@@ -179,15 +183,10 @@ h1 .fa-book {
     color: #a0a0a0;
     margin-top: 15px;
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 }
 
-/* --- ПРИХОВУЄМО СТАРУ КНОПКУ ЗВУКУ (якщо вона все ж таки присутня) --- */
-#toggle-sound-btn {
-    display: none !important;
-}
-
-/* --- ГЛОБАЛЬНІ ФІКСИ: УСУВАЄМО СИНЄ ВИДІЛЕННЯ ТА ФОКУС --- */
+/* --- ГЛОБАЛЬНІ ФІКСИ (ОБ'ЄДНАНІ) --- */
 button, 
 #flashcard, 
 .nav-btn,
@@ -199,43 +198,17 @@ a,
     box-shadow: none !important;
     border: none !important;
 }
-
-/* WebKit-специфічне правило для видалення тапового/синього підсвічування на мобільних */
+/* --- ГЛОБАЛЬНІ ФІКСИ ДЛЯ МОБІЛЬНИХ (Усунення підсвічування та виділення) --- */
 * {
-    -webkit-tap-highlight-color: transparent !important; 
+    /* Видаляє синій/сірий прямокутник, який з'являється при натисканні на елементи на WebKit-браузерах (iOS/Android) */
+    -webkit-tap-highlight-color: transparent; 
+    
+    /* Допомагає запобігти появі меню "копіювати/вставити" при тривалому натисканні на iOS */
     -webkit-touch-callout: none;
+    
+    /* Забороняє користувачу виділяти текст на елементах */
     -webkit-user-select: none;
-}
-
-/* --- Медіа-запити для десктопу --- */
-@media (min-width: 768px) {
-    h1 {
-        font-size: 2.2em;
-        margin-top: 20px;
-    }
-    .flashcard-container {
-        height: 350px;
-        margin-top: 50px;
-    }
-    #verb-infinitive {
-        font-size: 3em;
-    }
-    #verb-forms {
-        font-size: 1.5em;
-    }
-    #verb-translation {
-        font-size: 1.7em;
-    }
-    .controls {
-        margin-top: 40px;
-    }
-    .nav-btn {
-        padding: 15px 25px;
-        font-size: 1.3em;
-    }
-    #speak-verb-btn { 
-        width: 60px;
-        height: 60px;
-        font-size: 1.4em;
-    }
+    -moz-user-select: none; /* Для Firefox */
+    -ms-user-select: none; /* Для IE/Edge */
+    user-select: none; /* Стандартна властивість */
 }
