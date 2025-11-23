@@ -1,6 +1,5 @@
 // =================================================
 // 1. ДАНІ ТА ГЛОБАЛЬНІ ЗМІННІ
-// (ВАШ ПОВНИЙ СПИСОК СЛІВ З КОРЕКТНИМИ КЛЮЧАМИ: v1, v2, v3, ua)
 // =================================================
 
 const verbs = [
@@ -151,7 +150,6 @@ const verbs = [
     { v1: "write", v2: "wrote", v3: "written", ua: "писати" }
 ];
 
-// Назва ключа для збереження прогресу в браузері
 const STORAGE_KEY = 'flashcardWordIndex'; 
 
 let isFlipped = false;
@@ -159,7 +157,7 @@ let isSoundEnabled = true;
 
 
 // =================================================
-// 2. DOM ЕЛЕМЕНТИ (Ідентифікатори з index.html)
+// 2. DOM ЕЛЕМЕНТИ
 // =================================================
 const flashcard = document.getElementById('flashcard');
 const verbInfinitive = document.getElementById('verb-infinitive');
@@ -170,13 +168,15 @@ const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
 const flipBtn = document.getElementById('flip-btn');
 const soundBtn = document.getElementById('toggle-sound-btn'); 
+// ДОДАНО: Кнопка для прямого озвучення на картці
+const speakVerbBtn = document.getElementById('speak-verb-btn'); 
 
-// Завантажуємо прогрес при старті, інакше починаємо з 0
+
 let currentWordIndex = loadProgress(); 
 
 
 // =================================================
-// 3. ФУНКЦІЇ ЗБЕРЕЖЕННЯ ПРОГРЕСУ (localStorage)
+// 3. ФУНКЦІЇ ЗБЕРЕЖЕННЯ ПРОГРЕСУ
 // =================================================
 
 function saveProgress(index) {
@@ -200,17 +200,16 @@ function loadProgress() {
     } catch (e) {
         console.error('Не вдалося завантажити прогрес:', e);
     }
-    return 0; // Починаємо з першого слова
+    return 0;
 }
 
 
 // =================================================
 // 4. ФУНКЦІЇ ЛОГІКИ ТА НАВІГАЦІЇ
-// (ДОДАНО ЗАХИСТ ВІД ВІДСУТНІХ КЛЮЧІВ)
+// (ЗВУК ПРИБРАНО З АВТОМАТИЧНИХ ДІЙ)
 // =================================================
 
 function showWord() {
-    // Якщо масив порожній або індекс недійсний
     if (verbs.length === 0 || currentWordIndex < 0 || currentWordIndex >= verbs.length) {
         verbInfinitive.textContent = "Немає слів у списку.";
         verbForms.textContent = "";
@@ -221,16 +220,10 @@ function showWord() {
 
     const currentVerb = verbs[currentWordIndex];
 
-    // --- ЛИЦЬОВА СТОРОНА (ПРОБЛЕМНА ДІЛЯНКА) ---
-    // Використовуємо оператор ||, щоб відображати порожній рядок, якщо v1 відсутній
-    // Це забезпечить, що програма не зламається, навіть якщо якесь слово не має v1.
     verbInfinitive.textContent = currentVerb.v1 || "---"; 
-
-    // --- ЗВОРОТНА СТОРОНА ---
     verbForms.textContent = `V2: ${currentVerb.v2 || '---'} | V3: ${currentVerb.v3 || '---'}`;
     verbTranslation.textContent = `(${currentVerb.ua || '---'})`;
 
-    // Оновлення лічильника
     cardCounter.textContent = `Слово ${currentWordIndex + 1} з ${verbs.length}`;
 
     // Скидання перевороту
@@ -239,10 +232,7 @@ function showWord() {
         isFlipped = false;
     }
     
-    // Озвучення слова
-    if (isSoundEnabled && currentVerb.v1) {
-        speak(currentVerb.v1);
-    }
+    // !!! АВТОМАТИЧНИЙ ЗВУК ПРИ ЗАВАНТАЖЕННІ СЛОВА ВИДАЛЕНО
 }
 
 function showNextWord() {
@@ -261,20 +251,16 @@ function flipCard() {
     flashcard.classList.toggle('flipped');
     isFlipped = !isFlipped;
 
-    // Озвучуємо слово при перевороті, якщо увімкнено
-    if (isFlipped && isSoundEnabled) {
-        const currentVerb = verbs[currentWordIndex];
-        speak(currentVerb.v1);
-    }
+    // !!! АВТОМАТИЧНИЙ ЗВУК ПРИ ПЕРЕВОРОТІ ВИДАЛЕНО
 }
 
 function toggleSound() {
     isSoundEnabled = !isSoundEnabled;
-    soundBtn.textContent = isSoundEnabled ? '🔊 Звук Вкл' : '🔇 Звук Викл';
+    soundBtn.innerHTML = isSoundEnabled ? '<i class="fas fa-volume-up"></i>' : '<i class="fas fa-volume-mute"></i>';
 }
 
 function speak(text) {
-    if (!text) return; // Не озвучуємо порожній текст
+    if (!text) return;
     if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         
@@ -309,18 +295,31 @@ function setVoiceAndSpeak(utterance) {
 // 5. ІНІЦІАЛІЗАЦІЯ ТА ОБРОБНИКИ ПОДІЙ
 // =================================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Відображаємо слово (завантажене з localStorage)
+    
     showWord();
     
-    // Встановлюємо початковий стан кнопки звуку
-    soundBtn.textContent = isSoundEnabled ? '🔊 Звук Вкл' : '🔇 Звук Викл';
+    // Встановлюємо початковий стан кнопки ввімкнення/вимкнення звуку
+    soundBtn.innerHTML = isSoundEnabled ? '<i class="fas fa-volume-up"></i>' : '<i class="fas fa-volume-mute"></i>';
 
-    // Обробники подій
+    // Обробники навігації та перевороту
     prevBtn.addEventListener('click', showPreviousWord);
     nextBtn.addEventListener('click', showNextWord);
     flipBtn.addEventListener('click', flipCard);
     
+    // Картка перевертається при кліку
     flashcard.addEventListener('click', flipCard); 
     
+    // Обробник ввімкнення/вимкнення звуку
     soundBtn.addEventListener('click', toggleSound); 
+    
+    // НОВИЙ ОБРОБНИК: Пряме озвучення при натисканні на кнопку на картці
+    speakVerbBtn.addEventListener('click', (event) => {
+        // Зупиняємо розповсюдження події, щоб запобігти перевороту картки при натисканні на кнопку озвучення
+        event.stopPropagation();
+        
+        if (isSoundEnabled) {
+            const currentVerb = verbs[currentWordIndex];
+            speak(currentVerb.v1);
+        }
+    });
 });
