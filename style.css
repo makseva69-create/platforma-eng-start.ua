@@ -5,7 +5,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    /* Змінено: використовуємо justify-content: center для центрування по вертикалі 
+       та запобігання зайвому простору знизу */
+    justify-content: center; 
     min-height: 100vh;
     margin: 0;
     padding: 20px 10px;
@@ -30,7 +32,7 @@ h1 .fa-book {
     perspective: 1000px;
     width: 95%;
     max-width: 450px;
-    height: 300px;
+    height: 300px; /* Фіксована висота, щоб уникнути стрибків */
     margin: 30px auto;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     border-radius: 15px;
@@ -59,11 +61,12 @@ h1 .fa-book {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    /* Змінено: justify-content: center для центрування вмісту картки по вертикалі */
+    justify-content: center; 
     padding: 20px;
     box-sizing: border-box;
     border-radius: 15px;
-    position: relative; /* ВАЖЛИВО для позиціонування .speak-btn */
+    position: relative; 
 }
 
 /* Лицьова сторона */
@@ -92,6 +95,8 @@ h1 .fa-book {
     font-size: 1.3em;
     margin-bottom: 10px;
     color: #ffcc00;
+    /* Змінено: Додано фіксовану висоту рядка, щоб V2/V3 завжди займали однаковий простір */
+    line-height: 1.5; 
 }
 
 #verb-translation {
@@ -100,7 +105,7 @@ h1 .fa-book {
     color: #ccc;
 }
 
-/* --- НОВА КНОПКА ОЗВУЧЕННЯ НА КАРТЦІ --- */
+/* --- КНОПКА ОЗВУЧЕННЯ НА КАРТЦІ --- */
 .speak-btn {
     position: absolute;
     bottom: 20px;
@@ -171,40 +176,16 @@ h1 .fa-book {
     text-align: center;
 }
 
-/* --- КНОПКА ЗВУКУ (ВКЛ/ВИКЛ) --- */
-.sound-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    padding: 12px 15px;
-    background-color: #00bcd4;
-    color: white;
-    font-size: 1.1em;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.sound-btn:hover {
-    background-color: #0097a7;
-}
-
-.sound-btn:active {
-    transform: scale(0.96);
-}
-
-.sound-btn i {
-    margin-right: 0;
+/* --- ПРИХОВУЄМО КНОПКУ ЗВУКУ У ВЕРХНЬОМУ ПРАВОМУ КУТІ --- */
+#toggle-sound-btn {
+    display: none !important;
 }
 
 /* --- ГЛОБАЛЬНІ ФІКСИ (ДЛЯ ВИДАЛЕННЯ ПІДСВІЧУВАННЯ) --- */
 button, 
 #flashcard, 
 .nav-btn,
-.sound-btn,
-.speak-btn, /* Додано нову кнопку */
+.speak-btn, 
 a,
 :focus, 
 :active {
@@ -246,10 +227,7 @@ a,
         padding: 15px 25px;
         font-size: 1.3em;
     }
-    .sound-btn {
-        font-size: 1.2em;
-    }
-    .speak-btn { /* Коригуємо розмір на ПК */
+    .speak-btn { 
         width: 60px;
         height: 60px;
         font-size: 1.4em;
