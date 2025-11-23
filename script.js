@@ -168,7 +168,6 @@ const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
 const flipBtn = document.getElementById('flip-btn');
 const soundBtn = document.getElementById('toggle-sound-btn'); 
-// ДОДАНО: Кнопка для прямого озвучення на картці
 const speakVerbBtn = document.getElementById('speak-verb-btn'); 
 
 
@@ -206,7 +205,6 @@ function loadProgress() {
 
 // =================================================
 // 4. ФУНКЦІЇ ЛОГІКИ ТА НАВІГАЦІЇ
-// (ЗВУК ПРИБРАНО З АВТОМАТИЧНИХ ДІЙ)
 // =================================================
 
 function showWord() {
@@ -231,8 +229,6 @@ function showWord() {
         flashcard.classList.remove('flipped');
         isFlipped = false;
     }
-    
-    // !!! АВТОМАТИЧНИЙ ЗВУК ПРИ ЗАВАНТАЖЕННІ СЛОВА ВИДАЛЕНО
 }
 
 function showNextWord() {
@@ -251,7 +247,14 @@ function flipCard() {
     flashcard.classList.toggle('flipped');
     isFlipped = !isFlipped;
 
-    // !!! АВТОМАТИЧНИЙ ЗВУК ПРИ ПЕРЕВОРОТІ ВИДАЛЕНО
+    // ВОССТАНОВЛЕНА ЛОГИКА: Озвучить V2 и V3 при перевороте на обратную сторону
+    if (isFlipped && isSoundEnabled) {
+        const currentVerb = verbs[currentWordIndex];
+        
+        // Формируем строку для озвучивания: V2, V3. Использование запятой помогает TTS сделать небольшую паузу.
+        const formsToSpeak = `${currentVerb.v2}, ${currentVerb.v3}`;
+        speak(formsToSpeak);
+    }
 }
 
 function toggleSound() {
@@ -312,9 +315,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Обробник ввімкнення/вимкнення звуку
     soundBtn.addEventListener('click', toggleSound); 
     
-    // НОВИЙ ОБРОБНИК: Пряме озвучення при натисканні на кнопку на картці
+    // НОВИЙ ОБРОБНИК: Пряме озвучення V1 при натисканні на спеціальну кнопку (працює на Android)
     speakVerbBtn.addEventListener('click', (event) => {
-        // Зупиняємо розповсюдження події, щоб запобігти перевороту картки при натисканні на кнопку озвучення
+        // Зупиняємо розповсюдження події, щоб запобігти перевороту картки
         event.stopPropagation();
         
         if (isSoundEnabled) {
