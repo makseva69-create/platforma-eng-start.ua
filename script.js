@@ -263,35 +263,47 @@ function flipCard() {
     }
 }
 
+// =================================================
+// ФУНКЦІЯ SPEAK (ОНОВЛЕНА ВЕРСІЯ)
+// =================================================
+
 function speak(text) {
     if (!text) return;
+    
     if ('speechSynthesis' in window) {
+        // Обов'язкова зупинка попереднього синтезу перед початком нового
         window.speechSynthesis.cancel();
 
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'en-US';
         utterance.rate = 0.9;
+        
+        // Функція для встановлення голосу та відтворення
+        const speakAfterVoicesReady = () => {
+            const voices = window.speechSynthesis.getVoices();
+            const englishVoice = voices.find(voice => voice.lang === 'en-US' || voice.lang.startsWith('en-G'));
+            
+            if (englishVoice) {
+                utterance.voice = englishVoice;
+            }
+            
+            // КРИТИЧНО: Виклик функції speak
+            window.speechSynthesis.speak(utterance);
+        };
 
+        // Обробка, якщо голоси ще не завантажені
         if (window.speechSynthesis.getVoices().length === 0) {
-            window.speechSynthesis.onvoiceschanged = () => {
-                setVoiceAndSpeak(utterance);
-            };
+            // Додаємо лістенер, який спрацює лише один раз при завантаженні голосів
+            window.speechSynthesis.onvoiceschanged = speakAfterVoicesReady;
+            
+            // Якщо голоси вже завантажені, викликаємо функцію одразу
         } else {
-            setVoiceAndSpeak(utterance);
+            speakAfterVoicesReady();
         }
+
     } else {
         console.warn("Speech Synthesis не підтримується цим браузером.");
     }
-}
-
-function setVoiceAndSpeak(utterance) {
-    const voices = window.speechSynthesis.getVoices();
-    const englishVoice = voices.find(voice => voice.lang === 'en-US' || voice.lang.startsWith('en-G'));
-
-    if (englishVoice) {
-        utterance.voice = englishVoice;
-    }
-    window.speechSynthesis.speak(utterance);
 }
 
 
@@ -322,3 +334,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
