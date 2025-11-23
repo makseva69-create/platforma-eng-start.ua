@@ -4,42 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Неправильні дієслова</title>
-    
     <link rel="stylesheet" href="style.css">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
+    <main>
+        <h1><i class="fas fa-book"></i> Неправильні дієслова (Irregular Verbs)</h1>
 
-    <h1><i class="fas fa-book"></i> Неправильні дієслова</h1>
+        <div class="flashcard-container">
+            <div id="flashcard">
+                <div class="card-face card-front">
+                    <div id="verb-infinitive">Loading...</div>
+                    
+                    <button id="speak-verb-btn" class="speak-btn">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                </div>
 
-    <div class="flashcard-container">
-        <div id="flashcard">
-            <div class="card-face card-front">
-                <span id="verb-infinitive">ЗАВАНТАЖЕННЯ...</span>
-                
-                <button id="speak-verb-btn" class="speak-btn">
-                    <i class="fas fa-volume-up"></i>
-                </button>
-
-            </div>
-            
-            <div class="card-face card-back">
-                <p id="verb-forms">V2: --- | V3: ---</p>
-                <p id="verb-translation">(Переклад)</p>
+                <div class="card-face card-back">
+                    <div id="verb-forms"></div>
+                    <div id="verb-translation"></div>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div class="controls">
-        <button id="prev-btn" class="nav-btn"><i class="fas fa-arrow-left"></i></button>
-        <button id="flip-btn" class="nav-btn"><i class="fas fa-undo-alt"></i></button>
-        <button id="next-btn" class="nav-btn"><i class="fas fa-arrow-right"></i></button>
-    </div>
+        
+        <div class="controls">
+            <button id="prev-btn" class="nav-btn" title="Попереднє слово">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            
+            <button id="flip-btn" class="nav-btn" title="Перевернути картку">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+            
+            <button id="next-btn" class="nav-btn" title="Наступне слово">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
 
-    <div id="card-counter">Слово 1 з 93</div>
+        <div id="card-counter">Слово 0 з 0</div>
+    </main>
 
     <script src="script.js"></script>
 </body>
 </html>
-
