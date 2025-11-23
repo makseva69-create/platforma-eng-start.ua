@@ -167,7 +167,7 @@ const cardCounter = document.getElementById('card-counter');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
 const flipBtn = document.getElementById('flip-btn');
-const soundBtn = document.getElementById('toggle-sound-btn'); 
+// const soundBtn = document.getElementById('toggle-sound-btn'); // Видалено з HTML
 const speakVerbBtn = document.getElementById('speak-verb-btn'); 
 
 
@@ -247,24 +247,24 @@ function flipCard() {
     flashcard.classList.toggle('flipped');
     isFlipped = !isFlipped;
 
-    // ВОССТАНОВЛЕНА ЛОГИКА: Озвучить V2 и V3 при перевороте на обратную сторону
+    // ЛОГІКА ОЗВУЧУВАННЯ: Озвучити V2 і V3 при перевороті на зворотну сторону
     if (isFlipped && isSoundEnabled) {
         const currentVerb = verbs[currentWordIndex];
         
-        // Формируем строку для озвучивания: V2, V3. Использование запятой помогает TTS сделать небольшую паузу.
+        // ВИПРАВЛЕННЯ: Замінюємо '/' на ' or ' для коректного озвучування 
         const v2_clean = currentVerb.v2.replace(/\//g, ' or ');
-const v3_clean = currentVerb.v3.replace(/\//g, ' or ');
+        const v3_clean = currentVerb.v3.replace(/\//g, ' or ');
 
-// Формуємо рядок для озвучування: V2, V3
-const formsToSpeak = `${v2_clean}, ${v3_clean}`;
-// ...
+        // Формуємо рядок для озвучування: V2, V3
+        const formsToSpeak = `${v2_clean}, ${v3_clean}`;
+        speak(formsToSpeak);
     }
 }
 
-function toggleSound() {
-    isSoundEnabled = !isSoundEnabled;
-    soundBtn.innerHTML = isSoundEnabled ? '<i class="fas fa-volume-up"></i>' : '<i class="fas fa-volume-mute"></i>';
-}
+// Функція toggleSound тепер не потрібна, оскільки кнопки немає, але isSoundEnabled залишаємо
+// function toggleSound() {
+//     isSoundEnabled = !isSoundEnabled;
+// }
 
 function speak(text) {
     if (!text) return;
@@ -305,10 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     showWord();
     
-    // Встановлюємо початковий стан кнопки ввімкнення/вимкнення звуку
-    soundBtn.innerHTML = isSoundEnabled ? '<i class="fas fa-volume-up"></i>' : '<i class="fas fa-volume-mute"></i>';
-
-    // Обробники навігації та перевороту
+    // ПОВЕРНЕННЯ обробників подій для навігації та перевороту!
     prevBtn.addEventListener('click', showPreviousWord);
     nextBtn.addEventListener('click', showNextWord);
     flipBtn.addEventListener('click', flipCard);
@@ -316,10 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Картка перевертається при кліку
     flashcard.addEventListener('click', flipCard); 
     
-    // Обробник ввімкнення/вимкнення звуку
-    soundBtn.addEventListener('click', toggleSound); 
-    
-    // НОВИЙ ОБРОБНИК: Пряме озвучення V1 при натисканні на спеціальну кнопку (працює на Android)
+    // Пряме озвучення V1 при натисканні на спеціальну кнопку
     speakVerbBtn.addEventListener('click', (event) => {
         // Зупиняємо розповсюдження події, щоб запобігти перевороту картки
         event.stopPropagation();
@@ -330,4 +324,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
