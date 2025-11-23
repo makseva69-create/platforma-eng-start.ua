@@ -153,17 +153,16 @@ const verbs = [
 const STORAGE_KEY = 'flashcardWordIndex';
 
 let isFlipped = false;
-let isSoundEnabled = true; // Завжди увімкнений, оскільки немає кнопки вимкнення
+let isSoundEnabled = true;
 
 
 // =================================================
-// 2. DOM ЕЛЕМЕНТИ (ПЕРЕВІРТЕ ID! Вони мають збігатися з index.html)
+// 2. DOM ЕЛЕМЕНТИ (cardCounter ВИДАЛЕНО)
 // =================================================
 const flashcard = document.getElementById('flashcard');
 const verbInfinitive = document.getElementById('verb-infinitive');
 const verbForms = document.getElementById('verb-forms');
 const verbTranslation = document.getElementById('verb-translation');
-const cardCounter = document.getElementById('card-counter');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
 const flipBtn = document.getElementById('flip-btn');
@@ -212,7 +211,7 @@ function showWord() {
         verbInfinitive.textContent = "Немає слів у списку.";
         verbForms.textContent = "";
         verbTranslation.textContent = "";
-        cardCounter.textContent = "0 з 0";
+        // Рядок cardCounter ВИДАЛЕНО
         return;
     }
 
@@ -222,7 +221,7 @@ function showWord() {
     verbForms.textContent = `V2: ${currentVerb.v2 || '---'} | V3: ${currentVerb.v3 || '---'}`;
     verbTranslation.textContent = `(${currentVerb.ua || '---'})`;
 
-    cardCounter.textContent = `Слово ${currentWordIndex + 1} з ${verbs.length}`;
+    // Рядок cardCounter ВИДАЛЕНО
 
     // Скидання перевороту при переході до нового слова
     if (isFlipped) {
@@ -232,14 +231,12 @@ function showWord() {
 }
 
 function showNextWord() {
-    // ЛОГІКА НАВІГАЦІЇ
     currentWordIndex = (currentWordIndex + 1) % verbs.length;
     showWord();
     saveProgress(currentWordIndex);
 }
 
 function showPreviousWord() {
-    // ЛОГІКА НАВІГАЦІЇ (працює коректно для циклічного переходу)
     currentWordIndex = (currentWordIndex - 1 + verbs.length) % verbs.length;
     showWord();
     saveProgress(currentWordIndex);
@@ -263,22 +260,16 @@ function flipCard() {
     }
 }
 
-// =================================================
-// ФУНКЦІЯ SPEAK (ОНОВЛЕНА ВЕРСІЯ)
-// =================================================
-
 function speak(text) {
     if (!text) return;
     
     if ('speechSynthesis' in window) {
-        // Обов'язкова зупинка попереднього синтезу перед початком нового
         window.speechSynthesis.cancel();
 
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'en-US';
         utterance.rate = 0.9;
         
-        // Функція для встановлення голосу та відтворення
         const speakAfterVoicesReady = () => {
             const voices = window.speechSynthesis.getVoices();
             const englishVoice = voices.find(voice => voice.lang === 'en-US' || voice.lang.startsWith('en-G'));
@@ -287,16 +278,11 @@ function speak(text) {
                 utterance.voice = englishVoice;
             }
             
-            // КРИТИЧНО: Виклик функції speak
             window.speechSynthesis.speak(utterance);
         };
 
-        // Обробка, якщо голоси ще не завантажені
         if (window.speechSynthesis.getVoices().length === 0) {
-            // Додаємо лістенер, який спрацює лише один раз при завантаженні голосів
             window.speechSynthesis.onvoiceschanged = speakAfterVoicesReady;
-            
-            // Якщо голоси вже завантажені, викликаємо функцію одразу
         } else {
             speakAfterVoicesReady();
         }
@@ -314,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     showWord();
 
-    // ПІДКЛЮЧЕННЯ ЛІСТЕНЕРІВ ДЛЯ НАВІГАЦІЇ (Це має вирішити проблему з лиcтанням)
+    // ПІДКЛЮЧЕННЯ ЛІСТЕНЕРІВ ДЛЯ НАВІГАЦІЇ
     prevBtn.addEventListener('click', showPreviousWord);
     nextBtn.addEventListener('click', showNextWord);
     flipBtn.addEventListener('click', flipCard);
@@ -334,4 +320,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
