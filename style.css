@@ -5,8 +5,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Змінено: використовуємо justify-content: center для центрування по вертикалі 
-       та запобігання зайвому простору знизу */
+    /* Змінено: використовуємо justify-content: center для центрування по вертикалі */
     justify-content: center; 
     min-height: 100vh;
     margin: 0;
@@ -61,7 +60,6 @@ h1 .fa-book {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Змінено: justify-content: center для центрування вмісту картки по вертикалі */
     justify-content: center; 
     padding: 20px;
     box-sizing: border-box;
@@ -95,7 +93,6 @@ h1 .fa-book {
     font-size: 1.3em;
     margin-bottom: 10px;
     color: #ffcc00;
-    /* Змінено: Додано фіксовану висоту рядка, щоб V2/V3 завжди займали однаковий простір */
     line-height: 1.5; 
 }
 
@@ -105,7 +102,7 @@ h1 .fa-book {
     color: #ccc;
 }
 
-/* --- КНОПКА ОЗВУЧЕННЯ НА КАРТЦІ --- */
+/* --- КНОПКА ОЗВУЧЕННЯ НА КАРТЦІ (SPEAK-BTN) --- */
 .speak-btn {
     position: absolute;
     bottom: 20px;
@@ -174,9 +171,12 @@ h1 .fa-book {
     color: #a0a0a0;
     margin-top: 15px;
     text-align: center;
+    /* Змінено: Додано відступ знизу, щоб лічильник не прилипав до низу екрана на мобільних, 
+       особливо коли body має justify-content: center */
+    margin-bottom: 50px; 
 }
 
-/* --- ПРИХОВУЄМО КНОПКУ ЗВУКУ У ВЕРХНЬОМУ ПРАВОМУ КУТІ --- */
+/* --- ПРИХОВУЄМО КНОПКУ ЗВУКУ (якщо вона все ж таки присутня в DOM) --- */
 #toggle-sound-btn {
     display: none !important;
 }
