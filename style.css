@@ -5,36 +5,36 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Вирівнювання до верху, щоб дати більше простору для картки */
+    justify-content: flex-start;
     min-height: 100vh;
     margin: 0;
-    padding: 20px 10px; /* Зменшуємо горизонтальні відступи для мобільного */
+    padding: 20px 10px;
     box-sizing: border-box;
 }
 
 /* --- Заголовок --- */
 h1 {
-    font-size: 1.8em; /* Зменшуємо розмір для мобільних */
+    font-size: 1.8em;
     margin-bottom: 20px;
     text-align: center;
-    color: #f7f7f7; /* Світлий колір для контрасту з темним фоном */
+    color: #f7f7f7;
 }
 
 h1 .fa-book {
     margin-right: 10px;
-    color: #ffcc00; /* Жовтий акцент */
+    color: #ffcc00;
 }
 
 /* --- КОНТЕЙНЕР КАРТКИ (Flashcard Container) --- */
 .flashcard-container {
     perspective: 1000px;
-    width: 95%; /* Ширше для мобільних */
-    max-width: 450px; /* Максимальна ширина для ПК/планшетів */
-    height: 300px; /* Фіксована висота */
-    margin: 30px auto; /* Центрування картки та відступ */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Виразніша тінь */
+    width: 95%;
+    max-width: 450px;
+    height: 300px;
+    margin: 30px auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     border-radius: 15px;
-    transform-style: preserve-3d; /* Важливо для 3D-перевороту */
+    transform-style: preserve-3d;
 }
 
 #flashcard {
@@ -63,25 +63,26 @@ h1 .fa-book {
     padding: 20px;
     box-sizing: border-box;
     border-radius: 15px;
+    position: relative; /* ВАЖЛИВО для позиціонування .speak-btn */
 }
 
 /* Лицьова сторона */
 .card-front {
-    background-color: #f7f7f7; /* Світлий фон */
+    background-color: #f7f7f7;
     color: #333;
     z-index: 2;
 }
 
 #verb-infinitive {
-    font-size: 2.5em; /* Розмір інфінітива */
+    font-size: 2.5em;
     font-weight: bold;
-    color: #1e3c72; /* Темно-синій текст */
+    color: #1e3c72;
     text-align: center;
 }
 
 /* Зворотна сторона */
 .card-back {
-    background-color: #333; /* Темно-сірий фон для кращого контрасту */
+    background-color: #333;
     color: #fff;
     transform: rotateY(180deg);
     text-align: center;
@@ -90,52 +91,75 @@ h1 .fa-book {
 #verb-forms {
     font-size: 1.3em;
     margin-bottom: 10px;
-    color: #ffcc00; /* Жовтий акцент для форм */
+    color: #ffcc00;
 }
 
 #verb-translation {
     font-size: 1.5em;
     font-weight: 500;
-    color: #ccc; /* Світло-сірий для перекладу */
+    color: #ccc;
+}
+
+/* --- НОВА КНОПКА ОЗВУЧЕННЯ НА КАРТЦІ --- */
+.speak-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px;
+    background-color: #00bcd4;
+    color: white;
+    font-size: 1.2em;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.speak-btn:hover {
+    background-color: #0097a7;
 }
 
 /* --- КНОПКИ НАВІГАЦІЇ --- */
 .controls {
     display: flex;
-    justify-content: center; /* Центруємо кнопки */
+    justify-content: center;
     width: 95%;
     max-width: 450px;
-    gap: 15px; /* Проміжок між кнопками */
+    gap: 15px;
     margin-top: 30px;
-    margin-bottom: 20px; /* Відступ від лічильника */
+    margin-bottom: 20px;
 }
 
 .nav-btn {
-    background-color: #ffcc00; /* Жовтий фон */
-    color: #1e3c72; /* Темно-синій текст */
+    background-color: #ffcc00;
+    color: #1e3c72;
     border: none;
-    padding: 12px 18px; /* Більші кнопки */
-    font-size: 1.2em; /* Розмір іконки */
+    padding: 12px 18px;
+    font-size: 1.2em;
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
-    flex-grow: 1; /* Кнопки займають весь доступний простір */
-    max-width: 120px; /* Максимальна ширина для кнопок на великих екранах */
-    display: flex; /* Для центрування іконки */
+    flex-grow: 1;
+    max-width: 120px;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .nav-btn:hover {
-    background-color: #e6b800; /* Темніший жовтий при наведенні */
+    background-color: #e6b800;
 }
 
 .nav-btn:active {
-    transform: scale(0.96); /* Анімація натискання */
+    transform: scale(0.96);
 }
 
 .nav-btn i {
-    font-size: 1.4em; /* Розмір іконки */
+    font-size: 1.4em;
 }
 
 /* --- ЛІЧИЛЬНИК СЛІВ --- */
@@ -143,17 +167,17 @@ h1 .fa-book {
     font-size: 1.1em;
     font-weight: 600;
     color: #a0a0a0;
-    margin-top: 15px; /* Додатковий відступ */
+    margin-top: 15px;
     text-align: center;
 }
 
-/* --- КНОПКА ЗВУКУ --- */
+/* --- КНОПКА ЗВУКУ (ВКЛ/ВИКЛ) --- */
 .sound-btn {
-    position: absolute; /* Фіксоване позиціонування */
+    position: absolute;
     top: 20px;
     right: 20px;
     padding: 12px 15px;
-    background-color: #00bcd4; /* Синій фон */
+    background-color: #00bcd4;
     color: white;
     font-size: 1.1em;
     border-radius: 8px;
@@ -164,7 +188,7 @@ h1 .fa-book {
 }
 
 .sound-btn:hover {
-    background-color: #0097a7; /* Темніший синій при наведенні */
+    background-color: #0097a7;
 }
 
 .sound-btn:active {
@@ -172,7 +196,7 @@ h1 .fa-book {
 }
 
 .sound-btn i {
-    margin-right: 0; /* Прибираємо відступ, бо тепер тільки іконка */
+    margin-right: 0;
 }
 
 /* --- ГЛОБАЛЬНІ ФІКСИ (ДЛЯ ВИДАЛЕННЯ ПІДСВІЧУВАННЯ) --- */
@@ -180,29 +204,30 @@ button,
 #flashcard, 
 .nav-btn,
 .sound-btn,
+.speak-btn, /* Додано нову кнопку */
 a,
 :focus, 
 :active {
     outline: none !important; 
     box-shadow: none !important;
-    border: none !important; /* На всякий випадок, якщо рамка десь з'являється */
+    border: none !important;
 }
 
 /* WebKit-специфічне правило для видалення тапового підсвічування на мобільних */
 * {
     -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none; /* Відключає меню, що з'являється при довгому натисканні */
-    -webkit-user-select: none; /* Відключає можливість виділення тексту */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
 }
 
-/* --- Медіа-запити для десктопу (якщо потрібно щось змінити для великих екранів) --- */
+/* --- Медіа-запити для десктопу --- */
 @media (min-width: 768px) {
     h1 {
         font-size: 2.2em;
         margin-top: 20px;
     }
     .flashcard-container {
-        height: 350px; /* Збільшуємо висоту картки на десктопі */
+        height: 350px;
         margin-top: 50px;
     }
     #verb-infinitive {
@@ -223,5 +248,10 @@ a,
     }
     .sound-btn {
         font-size: 1.2em;
+    }
+    .speak-btn { /* Коригуємо розмір на ПК */
+        width: 60px;
+        height: 60px;
+        font-size: 1.4em;
     }
 }
