@@ -252,8 +252,12 @@ function flipCard() {
         const currentVerb = verbs[currentWordIndex];
         
         // Формируем строку для озвучивания: V2, V3. Использование запятой помогает TTS сделать небольшую паузу.
-        const formsToSpeak = `${currentVerb.v2}, ${currentVerb.v3}`;
-        speak(formsToSpeak);
+        const v2_clean = currentVerb.v2.replace(/\//g, ' or ');
+const v3_clean = currentVerb.v3.replace(/\//g, ' or ');
+
+// Формуємо рядок для озвучування: V2, V3
+const formsToSpeak = `${v2_clean}, ${v3_clean}`;
+// ...
     }
 }
 
@@ -326,3 +330,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
