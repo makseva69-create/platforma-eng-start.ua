@@ -261,17 +261,17 @@ function flipCard() {
 
 function speak(text) {
     if (!text || !('speechSynthesis' in window)) return;
-    
+
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
     utterance.rate = 0.9;
-    
+
     const speakAfterVoicesReady = () => {
         window.speechSynthesis.onvoiceschanged = null; // Видаляємо слухача після використання
         const voices = window.speechSynthesis.getVoices();
         const englishVoice = voices.find(voice => voice.lang === 'en-US' || voice.lang.startsWith('en-G'));
-        
+
         if (englishVoice) {
             utterance.voice = englishVoice;
         }
@@ -307,10 +307,10 @@ function switchToPage(pageId) {
         targetPage.classList.remove('hidden-page');
         targetPage.classList.add('active-page');
     }
-    
+
     // Закриваємо меню
     navbar.classList.remove('open');
-    
+
     // Якщо переключилися на сторінку дієслів, ініціалізуємо її
     if (pageId === 'verbs') {
         currentWordIndex = loadProgress();
@@ -323,7 +323,7 @@ function switchToPage(pageId) {
 // 6. ІНІЦІАЛІЗАЦІЯ ТА ОБРОБНИКИ ПОДІЙ
 // =================================================
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // Ініціалізація: Показуємо сторінку дієслів за замовчуванням
     currentWordIndex = loadProgress();
     showWord();
@@ -360,10 +360,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Додаємо обробник для закриття меню при кліку поза ним (на body)
     document.body.addEventListener('click', (event) => {
         // Якщо клік був поза меню і не на кнопці меню
-        if (navbar.classList.contains('open') && 
-            !navbar.contains(event.target) && 
+        if (navbar.classList.contains('open') &&
+            !navbar.contains(event.target) &&
             !menuToggleBtn.contains(event.target)) {
-            
+
             navbar.classList.remove('open');
         }
     });
