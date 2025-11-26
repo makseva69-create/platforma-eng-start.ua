@@ -3,48 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Неправильні дієслова</title>
+    <title>Вивчення Англійської</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     
-    <main>
-        <h1><i class="fas fa-book"></i> Неправильні дієслова (Irregular Verbs)</h1>
+    <button id="menu-toggle-btn" class="nav-icon-btn">
+        <i class="fas fa-bars"></i>
+    </button>
 
-        <div class="flashcard-container">
-            <div id="flashcard">
-                
-                <div class="card-face card-front">
-                    <div id="verb-infinitive">Loading...</div>
-                    
-                    <button id="speak-verb-btn" class="speak-btn">
-                        <i class="fas fa-volume-up"></i>
-                    </button>
-                </div>
+    <nav id="navbar">
+        <div class="nav-header">Меню</div>
+        <ul>
+            <li><a href="#" id="link-verbs" data-page="verbs">Дієслова (Карточки)</a></li>
+            <li><a href="#" id="link-reader" data-page="reader">Читання (Нова Сторінка)</a></li>
+            </ul>
+    </nav>
 
-                <div class="card-face card-back">
-                    <div id="verb-forms"></div>
-                    <div id="verb-translation"></div>
+    <main id="main-content">
+
+        <div id="verbs-page-content" class="page active-page">
+            <h1><i class="fas fa-book"></i> Неправильні дієслова (Irregular Verbs)</h1>
+
+            <div class="flashcard-container">
+                <div id="flashcard">
+                    <div class="card-face card-front">
+                        <div id="verb-infinitive">Loading...</div>
+                        <button id="speak-verb-btn" class="speak-btn"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="card-face card-back">
+                        <div id="verb-forms"></div>
+                        <div id="verb-translation"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="controls">
-            <button id="prev-btn" class="nav-btn" title="Попереднє слово">
-                <i class="fas fa-arrow-left"></i>
-            </button>
             
-            <button id="flip-btn" class="nav-btn" title="Перевернути картку">
-                <i class="fas fa-sync-alt"></i>
-            </button>
-            
-            <button id="next-btn" class="nav-btn" title="Наступне слово">
-                <i class="fas fa-arrow-right"></i>
-            </button>
+            <div class="controls">
+                <button id="prev-btn" class="nav-btn" title="Попереднє слово"><i class="fas fa-arrow-left"></i></button>
+                <button id="flip-btn" class="nav-btn" title="Перевернути картку"><i class="fas fa-sync-alt"></i></button>
+                <button id="next-btn" class="nav-btn" title="Наступне слово"><i class="fas fa-arrow-right"></i></button>
+            </div>
         </div>
 
-        </main>
+        <div id="reader-page-content" class="page hidden-page">
+             <h2><i class="fas fa-glasses"></i> Сторінка Читання</h2>
+             <p>Ця сторінка зараз порожня. Тут буде ваш функціонал для читання книг та перекладу.</p>
+        </div>
+
+    </main>
 
     <script src="script.js"></script>
 </body>
