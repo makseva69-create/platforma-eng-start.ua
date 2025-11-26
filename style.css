@@ -212,3 +212,138 @@ a,
     -ms-user-select: none; /* Для IE/Edge */
     user-select: none; /* Стандартна властивість */
 }
+/* --- СТИЛІ НАВІГАЦІЇ ТА КНОПКИ МЕНЮ --- */
+
+/* Кнопка "три смужки" */
+#menu-toggle-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 2000; /* Перекриває все інше */
+    width: 50px;
+    height: 50px;
+    background-color: #ffcc00;
+    color: #1e3c72;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.5em;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s;
+}
+
+#menu-toggle-btn:active {
+    transform: scale(0.95);
+}
+
+/* Навігаційна панель (Консоль) */
+#navbar {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Приховано за межами екрана */
+    width: 250px;
+    height: 100%;
+    background-color: #1e3c72; /* Темний фон */
+    color: #fff;
+    padding: 20px;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1500;
+    transition: left 0.3s ease;
+}
+
+#navbar.open {
+    left: 0; /* Показати на екрані */
+}
+
+.nav-header {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #ffcc00;
+}
+
+#navbar ul {
+    list-style: none;
+    padding: 0;
+}
+
+#navbar li {
+    margin-bottom: 15px;
+}
+
+#navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+    padding: 8px 0;
+    display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: color 0.2s;
+}
+
+#navbar a:hover {
+    color: #ffcc00;
+}
+
+/* --- СТИЛІ СТОРІНОК --- */
+
+/* Контейнер для вмісту сторінки */
+#main-content {
+    /* Додаємо відступ, щоб контент не перекривався кнопкою меню */
+    padding-top: 70px; 
+    width: 100%;
+    max-width: 500px; /* Зберігаємо обмеження ширини */
+}
+
+.page {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 10px; /* Внутрішній відступ */
+    transition: opacity 0.3s ease;
+}
+
+.hidden-page {
+    display: none;
+    opacity: 0;
+}
+
+.active-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 1;
+}
+
+/* Переконаємось, що елементи картки (як main раніше) центрують свій вміст */
+#verbs-page-content {
+    /* Цей блок тепер виконує роль головного контейнера для картки */
+    min-height: calc(100vh - 70px); 
+}
+
+/* Стилі для порожньої сторінки читання */
+#reader-page-content {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+}
+
+#reader-page-content h2 {
+    color: #ffcc00;
+}
+
+#reader-page-content p {
+    color: #ccc;
+    font-size: 1.1em;
+}
+
+/* --- КОРИГУВАННЯ ДЛЯ ДІЄСЛІВ --- */
+/* Оскільки h1 тепер всередині #verbs-page-content, 
+    ми можемо прибрати padding-top з h1, або залишити як є.
+    Я залишив як є, але скорегував body */
+
+body {
+    /* Прибрано flex-direction: column; з body, оскільки main тепер контролює контент */
+    display: block; 
+    text-align: center; 
+}
