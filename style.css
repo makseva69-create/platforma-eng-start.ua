@@ -216,4 +216,116 @@ h1 .fa-book {
     font-size: 1.3em;
     margin-bottom: 10px;
     color: #ffcc00;
-    line-height
+    line-height: 1.5; 
+}
+
+#verb-translation {
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #ccc;
+}
+
+/* --- КНОПКА ОЗВУЧЕННЯ НА КАРТЦІ --- */
+#speak-verb-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 50px; 
+    height: 50px;
+    background-color: #00bcd4;
+    color: white;
+    font-size: 1.2em;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.2s, transform 0.1s ease; 
+}
+
+#speak-verb-btn:hover {
+    background-color: #0097a7;
+}
+
+#speak-verb-btn:active {
+    transform: scale(0.9);
+    background-color: #007985;
+}
+
+
+/* --- КНОПКИ НАВІГАЦІЇ (ICON BUTTONS) --- */
+.controls {
+    display: flex;
+    justify-content: center;
+    width: 100%; 
+    max-width: 450px;
+    gap: 10px; 
+    margin-top: 30px;
+    padding: 0 10px; 
+}
+
+.nav-btn {
+    background-color: #ffcc00; 
+    color: #1e3c72;
+    border: none;
+    width: 70px;
+    height: 70px;
+    font-size: 1.4em;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.nav-btn:hover {
+    background-color: #e6b800;
+}
+
+.nav-btn:active {
+    transform: scale(0.96);
+}
+
+/* --- СТИЛІ СТОРІНКИ ЧИТАННЯ --- */
+#reader-page-content {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    width: 100%;
+    max-width: 500px;
+}
+
+#reader-page-content h2 {
+    color: #ffcc00;
+}
+
+#reader-page-content p {
+    color: #ccc;
+    font-size: 1.1em;
+}
+
+/* --- ГЛОБАЛЬНІ ФІКСИ --- */
+button, 
+#flashcard, 
+.nav-btn,
+#speak-verb-btn, 
+a,
+:focus, 
+:active {
+    outline: none !important; 
+    box-shadow: none !important;
+    border: none !important;
+}
+
+* {
+    -webkit-tap-highlight-color: transparent; 
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
