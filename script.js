@@ -151,14 +151,15 @@ const verbs = [
 ];
 
 const STORAGE_KEY = 'flashcardWordIndex';
-
 let isFlipped = false;
 let isSoundEnabled = true;
-
+let currentWordIndex = 0; // Ініціалізуємо тут, завантажимо пізніше
 
 // =================================================
-// 2. DOM ЕЛЕМЕНТИ (cardCounter ВИДАЛЕНО)
+// 2. DOM ЕЛЕМЕНТИ
 // =================================================
+
+// Елементи картки (потрібні лише на сторінці дієслів)
 const flashcard = document.getElementById('flashcard');
 const verbInfinitive = document.getElementById('verb-infinitive');
 const verbForms = document.getElementById('verb-forms');
@@ -168,8 +169,14 @@ const nextBtn = document.getElementById('next-btn');
 const flipBtn = document.getElementById('flip-btn');
 const speakVerbBtn = document.getElementById('speak-verb-btn');
 
-
-let currentWordIndex = loadProgress();
+// Елементи навігації
+const menuToggleBtn = document.getElementById('menu-toggle-btn');
+const navbar = document.getElementById('navbar');
+const navLinks = document.querySelectorAll('#navbar a'); // Всі посилання в меню
+const pages = {
+    verbs: document.getElementById('verbs-page-content'),
+    reader: document.getElementById('reader-page-content')
+};
 
 
 // =================================================
@@ -202,29 +209,24 @@ function loadProgress() {
 
 
 // =================================================
-// 4. ФУНКЦІЇ ЛОГІКИ ТА НАВІГАЦІЇ
+// 4. ФУНКЦІЇ ЛОГІКИ ДІЄСЛІВ
 // =================================================
 
 function showWord() {
-    // ВАЖЛИВО: ця перевірка гарантує, що індекси не виходять за межі масиву
     if (verbs.length === 0 || currentWordIndex < 0 || currentWordIndex >= verbs.length) {
-        verbInfinitive.textContent = "Немає слів у списку.";
-        verbForms.textContent = "";
-        verbTranslation.textContent = "";
-        // Рядок cardCounter ВИДАЛЕНО
+        if (verbInfinitive) verbInfinitive.textContent = "Немає слів у списку.";
+        if (verbForms) verbForms.textContent = "";
+        if (verbTranslation) verbTranslation.textContent = "";
         return;
     }
 
     const currentVerb = verbs[currentWordIndex];
 
-    verbInfinitive.textContent = currentVerb.v1 || "---";
-    verbForms.textContent = `V2: ${currentVerb.v2 || '---'} | V3: ${currentVerb.v3 || '---'}`;
-    verbTranslation.textContent = `(${currentVerb.ua || '---'})`;
+    if (verbInfinitive) verbInfinitive.textContent = currentVerb.v1 || "---";
+    if (verbForms) verbForms.textContent = `V2: ${currentVerb.v2 || '---'} | V3: ${currentVerb.v3 || '---'}`;
+    if (verbTranslation) verbTranslation.textContent = `(${currentVerb.ua || '---'})`;
 
-    // Рядок cardCounter ВИДАЛЕНО
-
-    // Скидання перевороту при переході до нового слова
-    if (isFlipped) {
+    if (isFlipped && flashcard) {
         flashcard.classList.remove('flipped');
         isFlipped = false;
     }
@@ -243,80 +245,127 @@ function showPreviousWord() {
 }
 
 function flipCard() {
+    if (!flashcard) return; // Запобігання помилці, якщо елемент не існує
+
     flashcard.classList.toggle('flipped');
     isFlipped = !isFlipped;
 
-    // ЛОГІКА ОЗВУЧУВАННЯ: Озвучити V2 і V3 при перевороті на зворотну сторону
     if (isFlipped && isSoundEnabled) {
         const currentVerb = verbs[currentWordIndex];
-
-        // КРИТИЧНЕ ВИПРАВЛЕННЯ: Замінюємо '/' на ' or ' для коректного озвучування 
         const v2_clean = (currentVerb.v2 || '').replace(/\//g, ' or ');
         const v3_clean = (currentVerb.v3 || '').replace(/\//g, ' or ');
-
-        // Формуємо рядок для озвучування: V2, V3
         const formsToSpeak = `${v2_clean}, ${v3_clean}`;
         speak(formsToSpeak);
     }
 }
 
 function speak(text) {
-    if (!text) return;
+    if (!text || !('speechSynthesis' in window)) return;
     
-    if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
-        utterance.rate = 0.9;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.9;
+    
+    const speakAfterVoicesReady = () => {
+        window.speechSynthesis.onvoiceschanged = null; // Видаляємо слухача після використання
+        const voices = window.speechSynthesis.getVoices();
+        const englishVoice = voices.find(voice => voice.lang === 'en-US' || voice.lang.startsWith('en-G'));
         
-        const speakAfterVoicesReady = () => {
-            const voices = window.speechSynthesis.getVoices();
-            const englishVoice = voices.find(voice => voice.lang === 'en-US' || voice.lang.startsWith('en-G'));
-            
-            if (englishVoice) {
-                utterance.voice = englishVoice;
-            }
-            
-            window.speechSynthesis.speak(utterance);
-        };
-
-        if (window.speechSynthesis.getVoices().length === 0) {
-            window.speechSynthesis.onvoiceschanged = speakAfterVoicesReady;
-        } else {
-            speakAfterVoicesReady();
+        if (englishVoice) {
+            utterance.voice = englishVoice;
         }
+        window.speechSynthesis.speak(utterance);
+    };
 
+    if (window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.onvoiceschanged = speakAfterVoicesReady;
     } else {
-        console.warn("Speech Synthesis не підтримується цим браузером.");
+        speakAfterVoicesReady();
     }
 }
 
 
 // =================================================
-// 5. ІНІЦІАЛІЗАЦІЯ ТА ОБРОБНИКИ ПОДІЙ
+// 5. ФУНКЦІЇ НАВІГАЦІЇ
+// =================================================
+
+function toggleMenu() {
+    navbar.classList.toggle('open');
+}
+
+function switchToPage(pageId) {
+    // Приховуємо всі сторінки
+    Object.values(pages).forEach(page => {
+        page.classList.remove('active-page');
+        page.classList.add('hidden-page');
+    });
+
+    // Показуємо потрібну сторінку
+    const targetPage = pages[pageId];
+    if (targetPage) {
+        targetPage.classList.remove('hidden-page');
+        targetPage.classList.add('active-page');
+    }
+    
+    // Закриваємо меню
+    navbar.classList.remove('open');
+    
+    // Якщо переключилися на сторінку дієслів, ініціалізуємо її
+    if (pageId === 'verbs') {
+        currentWordIndex = loadProgress();
+        showWord();
+    }
+}
+
+
+// =================================================
+// 6. ІНІЦІАЛІЗАЦІЯ ТА ОБРОБНИКИ ПОДІЙ
 // =================================================
 document.addEventListener('DOMContentLoaded', () => {
-
+    
+    // Ініціалізація: Показуємо сторінку дієслів за замовчуванням
+    currentWordIndex = loadProgress();
     showWord();
 
-    // ПІДКЛЮЧЕННЯ ЛІСТЕНЕРІВ ДЛЯ НАВІГАЦІЇ
-    prevBtn.addEventListener('click', showPreviousWord);
-    nextBtn.addEventListener('click', showNextWord);
-    flipBtn.addEventListener('click', flipCard);
+    // --- ОБРОБНИКИ ДЛЯ ДІЄСЛІВ ---
+    if (prevBtn) prevBtn.addEventListener('click', showPreviousWord);
+    if (nextBtn) nextBtn.addEventListener('click', showNextWord);
+    if (flipBtn) flipBtn.addEventListener('click', flipCard);
+    if (flashcard) flashcard.addEventListener('click', flipCard);
 
-    // Картка перевертається при кліку
-    flashcard.addEventListener('click', flipCard);
+    if (speakVerbBtn) {
+        speakVerbBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            if (isSoundEnabled) {
+                const currentVerb = verbs[currentWordIndex];
+                speak(currentVerb.v1);
+            }
+        });
+    }
 
-    // Пряме озвучення V1 при натисканні на спеціальну кнопку
-    speakVerbBtn.addEventListener('click', (event) => {
-        // Зупиняємо розповсюдження події, щоб запобігти перевороту картки
-        event.stopPropagation();
+    // --- ОБРОБНИКИ ДЛЯ НАВІГАЦІЇ ---
+    menuToggleBtn.addEventListener('click', toggleMenu);
 
-        if (isSoundEnabled) {
-            const currentVerb = verbs[currentWordIndex];
-            // Озвучуємо лише першу форму
-            speak(currentVerb.v1);
+    navLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const pageId = link.getAttribute('data-page');
+            if (pageId) {
+                switchToPage(pageId);
+            }
+        });
+    });
+
+    // Додаємо обробник для закриття меню при кліку поза ним (на body)
+    document.body.addEventListener('click', (event) => {
+        // Якщо клік був поза меню і не на кнопці меню
+        if (navbar.classList.contains('open') && 
+            !navbar.contains(event.target) && 
+            !menuToggleBtn.contains(event.target)) {
+            
+            navbar.classList.remove('open');
         }
     });
+
 });
